@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import css from "./Create.module.css";
 
 const Create = (props) => {
     const {
@@ -57,7 +58,7 @@ const Create = (props) => {
     };
 
     return (
-        <form className="w-50">
+        <form className={`${css.componentWidth} ${css.bgcolor}`}>
             <h2>Create Your Tasks</h2>
             <input
                 onChange={(e) => settitle(e.target.value)}

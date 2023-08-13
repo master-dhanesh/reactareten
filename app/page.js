@@ -11,7 +11,7 @@ const page = () => {
     const [activeTask, setActiveTask] = useState(null);
 
     return (
-        <div className="mt-5 container p-5">
+        <div className="mycontainer">
             <hr />
             <Create
                 tasks={tasks}

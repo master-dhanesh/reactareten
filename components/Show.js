@@ -23,14 +23,16 @@ const Show = (props) => {
     };
 
     let tasklist = (
-        <h2 className="mt-5 w-100 text-center text-danger">Loading...</h2>
+        <h2 style={{ margin: "auto", color: "tomato" }} className="">
+            Loading...
+        </h2>
     );
     if (tasks.length > 0) {
         tasklist = tasks.map((task, index) => {
             return (
                 <div
                     key={index}
-                    className="card  mb-3 me-3"
+                    className="card mycard  mb-3 me-3"
                     style={{ width: "18rem" }}
                 >
                     <div className="card-body">
@@ -58,7 +60,12 @@ const Show = (props) => {
         });
     }
 
-    return <div className="d-flex flex-wrap">{tasklist}</div>;
+    const style = {
+        display: "flex",
+        flexWrap: "wrap",
+    };
+
+    return <div style={style}>{tasklist}</div>;
 };
 
 export default Show;

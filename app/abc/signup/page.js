@@ -1,10 +1,9 @@
-import Link from "next/link";
+import React from "react";
 
 const page = () => {
     return (
         <div className="container mt-5">
-            <h1>Homepage</h1>
-            <Link href="/abc">Go to Website</Link>
+            <h2>Signup</h2>
         </div>
     );
 };

@@ -1,11 +1,11 @@
 import React from "react";
 
-const PNF = () => {
+const pagenotfound = () => {
     return (
-        <div className="container mt-5">
-            <h1 className="text-center text-danger">PAGE NOT FOUND</h1>
+        <div>
+            <h1 className="mt-5 container text-center">Page Not Found</h1>
         </div>
     );
 };
 
-export default PNF;
+export default pagenotfound;

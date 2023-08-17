@@ -2,8 +2,8 @@ import React from "react";
 
 const page = () => {
     return (
-        <div className="container mt-5">
-            <h2>Signin</h2>
+        <div>
+            <h1>About.js Page</h1>
         </div>
     );
 };

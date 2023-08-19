@@ -21,6 +21,11 @@ const page = () => {
                     className="mb-3 form-control"
                 />
                 <input
+                    type="email"
+                    placeholder="email@email.email"
+                    className="mb-3 form-control"
+                />
+                <input
                     type="text"
                     placeholder="********"
                     className="mb-3 form-control"

@@ -1,3 +1,5 @@
+import Wrapper from "@/components/Wrapper/Wrapper";
+import UserContext from "@/utils/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const metadata = {
@@ -7,7 +9,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <body suppressHydrationWarning>{children}</body>
+            <body suppressHydrationWarning>
+                <UserContext>{children}</UserContext>
+            </body>
         </html>
     );
 }

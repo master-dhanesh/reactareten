@@ -1,7 +1,11 @@
 "use client";
 
+import { User } from "@/utils/UserContext";
+import { useContext } from "react";
+
 const page = (props) => {
-    console.log(props);
+    const [users, setusers] = useContext(User);
+    console.log(users);
     return (
         <div>
             <h1>{props.params.username}</h1>

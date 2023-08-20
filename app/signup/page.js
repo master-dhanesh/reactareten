@@ -1,13 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { User } from "@/utils/UserContext";
 
 const page = () => {
     const router = useRouter();
+    const [users, setusers] = useContext(User);
 
     const SubmitHandler = (e) => {
         e.preventDefault();
-        console.log("code to send data to backend-database");
+        const username = e.target[0].value;
+        const email = e.target[1].value;
+        const password = e.target[2].value;
+        setusers([...users, { username, email, password }]);
+        localStorage.setItem(
+            "users",
+            JSON.stringify([...users, { username, email, password }])
+        );
         router.push("/signin");
     };
 

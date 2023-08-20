@@ -1,4 +1,3 @@
-import Wrapper from "@/components/Wrapper/Wrapper";
 import UserContext from "@/utils/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 

@@ -7,11 +7,13 @@ import React, { useEffect, useState } from "react";
 const page = () => {
     const [posts, setPosts] = useState([]);
 
+    const [page, setpage] = useState(1);
+
     const [show, setShow] = useState(false);
 
     const getPosts = async () => {
         try {
-            const { data } = await axios.get("/posts?_limit=10");
+            const { data } = await axios.get(`/posts?_page=${page}`);
             setPosts(data);
         } catch (error) {
             console.log(error);
@@ -21,10 +23,10 @@ const page = () => {
     useEffect(() => {
         console.log("Api called!");
         getPosts();
-    }, []);
+    }, [page]);
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 p-5">
             <h3>Click to Show Data</h3>
             <button onClick={() => setShow(!show)} className="btn btn-primary">
                 {!show ? "Show" : "Hide"}
@@ -50,6 +52,8 @@ const page = () => {
                       </div>
                   ))
                 : "Click to load the posts..."}
+
+            <button onClick={() => setpage(page + 1)}>Next</button>
         </div>
     );
 };

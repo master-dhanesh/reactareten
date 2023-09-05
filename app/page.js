@@ -1,53 +1,24 @@
 "use client";
-import axios from "@/utils/axios";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { increment, decrement } from "@/store/reducers/counterReducer";
 
 const page = () => {
-    const [posts, setPosts] = useState([]);
-    const [hasMore, sethasMore] = useState(true);
+    const dispatch = useDispatch();
+    const { value } = useSelector((state) => state.counterReducer);
 
-    const getPosts = async () => {
-        try {
-            const { data } = await axios.get(
-                `/posts?_limit=10&_start=${posts.length}`
-            );
-            data.length === 0 && sethasMore(false);
-            setPosts([...posts, ...data]);
-        } catch (error) {
-            console.log(error);
-        }
+    const AddHandler = () => {
+        dispatch(increment(1));
     };
 
-    useEffect(() => {
-        getPosts();
-    }, [page]);
-
+    const SubHandler = () => {
+        dispatch(decrement(1));
+    };
     return (
-        <div className="container mt-5 p-5">
-            <h1>Axios Example</h1>
-            <InfiniteScroll
-                dataLength={posts.length}
-                next={getPosts}
-                hasMore={hasMore}
-                loader={<p style={{ textAlign: "center" }}>Loading...</p>}
-                endMessage={
-                    <p style={{ textAlign: "center" }}>
-                        <b>Yay! You have seen it all</b>
-                    </p>
-                }
-            >
-                {posts.length !== 0 &&
-                    posts.map((p) => (
-                        <div
-                            className="fs-5 d-flex justify-content-between alert alert-light "
-                            key={p.id}
-                        >
-                            {p.title} <Link href={`/${p.id}`}>Expore More</Link>
-                        </div>
-                    ))}
-            </InfiniteScroll>
+        <div>
+            <h1>value : {value}</h1>
+            <button onClick={AddHandler}>Add 1</button>
+            <button onClick={SubHandler}>Sub 1</button>
         </div>
     );
 };

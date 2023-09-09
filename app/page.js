@@ -1,33 +1,23 @@
 "use client";
-import {
-    asyncincrement5,
-    decrement,
-    increment,
-} from "@/store/actions/counterActions";
-import React from "react";
+import { asyncAddImages } from "@/store/actions/galleryActions";
+import { removeerror } from "@/store/reducers/galleryReducer";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const page = () => {
-    const { value } = useSelector((state) => state.counterReducer);
+    const { images, errors } = useSelector((state) => state.galleryReducer);
     const dispatch = useDispatch();
-    const AddHandler = () => {
-        dispatch(increment(1));
-    };
-    const Add5Handler = () => {
-        // dispatch(increment5(5));
-        dispatch(asyncincrement5(5));
-    };
+    useEffect(() => {
+        dispatch(asyncAddImages());
+    }, []);
 
-    const SubHandler = () => {
-        dispatch(decrement(1));
-    };
+    if (errors) {
+        alert(errors);
+        dispatch(removeerror());
+    }
+    console.log(images, errors);
     return (
-        <div>
-            <h1>value : {value}</h1>
-            <button onClick={AddHandler}>Add 1</button>
-            <button onClick={SubHandler}>Sub 1</button>
-            <button onClick={Add5Handler}>Add 5</button>
-        </div>
+        <div>{images.length > 0 ? JSON.stringify(images) : "Loading..."}</div>
     );
 };
 

@@ -1,23 +1,39 @@
 "use client";
-import { asyncAddImages } from "@/store/actions/galleryActions";
-import { removeerror } from "@/store/reducers/galleryReducer";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
+import axios from "@/utils/axios";
 const page = () => {
-    const { images, errors } = useSelector((state) => state.galleryReducer);
-    const dispatch = useDispatch();
+    const getUsers = async () => {
+        try {
+            const { data } = await axios.post("/read");
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const CreateHandler = async () => {
+        try {
+            const newUser = {
+                username: "master",
+                email: "master@gmail.com",
+                password: 12345678,
+            };
+            const { data } = await axios.post("/create", newUser);
+            console.log(data);
+        } catch (error) {
+            alert(error.response.data);
+        }
+    };
+
     useEffect(() => {
-        dispatch(asyncAddImages());
+        getUsers();
     }, []);
 
-    if (errors) {
-        alert(errors);
-        dispatch(removeerror());
-    }
-    console.log(images, errors);
     return (
-        <div>{images.length > 0 ? JSON.stringify(images) : "Loading..."}</div>
+        <div>
+            <h1>User ops</h1>
+            <button onClick={CreateHandler}>Create User</button>
+        </div>
     );
 };
 

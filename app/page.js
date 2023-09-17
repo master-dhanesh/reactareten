@@ -1,38 +1,109 @@
 "use client";
-import React, { useEffect } from "react";
-import axios from "@/utils/axios";
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const page = () => {
-    const getUsers = async () => {
+    const [amount, setamount] = useState("");
+    const [difficulty, setDifficulty] = useState("");
+    const [category, setCategory] = useState("");
+
+    const [allcategories, setAllcategories] = useState([]);
+    const getCategories = async () => {
         try {
-            const { data } = await axios.post("/read");
-            console.log(data);
+            const { data } = await axios.get(
+                "https://opentdb.com/api_category.php"
+            );
+            console.log(data.trivia_categories);
+            setAllcategories(data.trivia_categories);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const CreateHandler = async () => {
+    const CallApiHandler = (e) => {
+        e.preventDefault();
+        const query = {
+            amount,
+            category,
+            difficulty,
+        };
+        console.log(query);
+        callQuiz();
+    };
+
+    const callQuiz = async () => {
         try {
-            const newUser = {
-                username: "master",
-                email: "master@gmail.com",
-                password: 12345678,
+            const { data } = await axios.get(
+                `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}`
+            );
+            // console.log(data.results);
+
+            const shuffleArray = (arr) => {
+                return arr
+                    .map((a) => [Math.random(), a])
+                    .sort((a, b) => a[0] - b[0])
+                    .map((a) => a[1]);
             };
-            const { data } = await axios.post("/create", newUser);
-            console.log(data);
+
+            const updatedQuiz = data.results.reduce(
+                (acc, cv) => [
+                    ...acc,
+                    {
+                        question: cv.question,
+                        answer: cv.correct_answer,
+                        options: shuffleArray([
+                            ...cv.incorrect_answers,
+                            cv.correct_answer,
+                        ]),
+                    },
+                ],
+                []
+            );
+            console.log(updatedQuiz);
         } catch (error) {
-            alert(error.response.data);
+            console.log(error);
         }
     };
 
     useEffect(() => {
-        getUsers();
+        getCategories();
     }, []);
 
     return (
-        <div>
-            <h1>User ops</h1>
-            <button onClick={CreateHandler}>Create User</button>
+        <div className="container mt-5">
+            <form onSubmit={CallApiHandler}>
+                <input
+                    value={amount}
+                    onChange={(e) => setamount(e.target.value)}
+                    type="number"
+                    placeholder="amount"
+                />
+                <br />
+                <select
+                    // value={difficulty}
+                    onChange={(e) => setDifficulty(e.target.value)}
+                >
+                    <option value="">Any Difficulty</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <br />
+                <select
+                    // value={difficulty}
+                    onChange={(e) => setCategory(e.target.value)}
+                >
+                    <option value="">Any Category</option>
+                    {allcategories.map((c) => (
+                        <option key={c.id} value={c.id}>
+                            {c.name}
+                        </option>
+                    ))}
+                </select>
+                <br />
+                <button>Submit</button>
+            </form>
         </div>
     );
 };
